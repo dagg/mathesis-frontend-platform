@@ -1,5 +1,7 @@
 /* eslint-disable import/extensions */
-import LANGUAGES, { langs as languageLangs } from '@cospired/i18n-iso-languages';
+import LANGUAGES, {
+  langs as languageLangs,
+} from '@cospired/i18n-iso-languages';
 
 import { getPrimaryLanguageSubtag } from './lib';
 
@@ -15,6 +17,7 @@ import { getPrimaryLanguageSubtag } from './lib';
  */
 
 // LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/ar.json'));
+LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/el.json'));
 LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/en.json'));
 LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/es.json'));
 LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/fr.json'));
@@ -36,7 +39,9 @@ LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/pt.json'));
  */
 export const getLanguageMessages = (locale) => {
   const primaryLanguageSubtag = getPrimaryLanguageSubtag(locale);
-  const languageCode = languageLangs().includes(primaryLanguageSubtag) ? primaryLanguageSubtag : 'en';
+  const languageCode = languageLangs().includes(primaryLanguageSubtag)
+    ? primaryLanguageSubtag
+    : 'en';
 
   return LANGUAGES.getNames(languageCode);
 };
@@ -56,5 +61,8 @@ export const getLanguageMessages = (locale) => {
  */
 export const getLanguageList = (locale) => {
   const languageMessages = getLanguageMessages(locale);
-  return Object.entries(languageMessages).map(([code, name]) => ({ code, name }));
+  return Object.entries(languageMessages).map(([code, name]) => ({
+    code,
+    name,
+  }));
 };

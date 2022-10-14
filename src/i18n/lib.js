@@ -3,6 +3,7 @@ import Cookies from 'universal-cookie';
 import merge from 'lodash.merge';
 
 import '@formatjs/intl-pluralrules/polyfill';
+import '@formatjs/intl-pluralrules/locale-data/el';
 import '@formatjs/intl-pluralrules/locale-data/ar';
 import '@formatjs/intl-pluralrules/locale-data/en';
 import '@formatjs/intl-pluralrules/locale-data/es';
@@ -19,6 +20,7 @@ import '@formatjs/intl-pluralrules/locale-data/th';
 import '@formatjs/intl-pluralrules/locale-data/uk';
 
 import '@formatjs/intl-relativetimeformat/polyfill';
+import '@formatjs/intl-relativetimeformat/locale-data/el';
 import '@formatjs/intl-relativetimeformat/locale-data/ar';
 import '@formatjs/intl-relativetimeformat/locale-data/en';
 import '@formatjs/intl-relativetimeformat/locale-data/es';
@@ -38,6 +40,7 @@ const cookies = new Cookies();
 const supportedLocales = [
   'ar', // Arabic
   // NOTE: 'en' is not included in this list intentionally, since it's the fallback.
+  'el', // Greek
   'es-419', // Spanish, Latin American
   'fr', // French
   'zh-cn', // Chinese, Simplified
@@ -148,15 +151,16 @@ export function findSupportedLocale(locale) {
  */
 export function getLocale(locale) {
   if (messages === null) {
-    throw new Error('getLocale called before configuring i18n. Call configure with messages first.');
+    throw new Error(
+      'getLocale called before configuring i18n. Call configure with messages first.'
+    );
   }
   // 1. Explicit application request
   if (locale !== undefined) {
     return findSupportedLocale(locale);
   }
   // 2. User setting in cookie
-  const cookieLangPref = cookies
-    .get(config.LANGUAGE_PREFERENCE_COOKIE_NAME);
+  const cookieLangPref = cookies.get(config.LANGUAGE_PREFERENCE_COOKIE_NAME);
   if (cookieLangPref) {
     return findSupportedLocale(cookieLangPref.toLowerCase());
   }
@@ -204,6 +208,7 @@ export function handleRtl() {
 
 const messagesShape = {
   ar: PropTypes.objectOf(PropTypes.string), // Arabic
+  el: PropTypes.objectOf(PropTypes.string), // Greek
   en: PropTypes.objectOf(PropTypes.string),
   'es-419': PropTypes.objectOf(PropTypes.string), // Spanish, Latin American
   fr: PropTypes.objectOf(PropTypes.string), // French
@@ -259,7 +264,9 @@ export function configure(options) {
   loggingService = options.loggingService;
   // eslint-disable-next-line prefer-destructuring
   config = options.config;
-  messages = Array.isArray(options.messages) ? mergeMessages(options.messages) : options.messages;
+  messages = Array.isArray(options.messages)
+    ? mergeMessages(options.messages)
+    : options.messages;
 
   if (config.ENVIRONMENT !== 'production') {
     Object.keys(messages).forEach((key) => {

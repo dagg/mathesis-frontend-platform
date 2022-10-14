@@ -12,6 +12,7 @@ import { getPrimaryLanguageSubtag } from './lib';
  */
 
 COUNTRIES.registerLocale(require('i18n-iso-countries/langs/ar.json'));
+COUNTRIES.registerLocale(require('i18n-iso-countries/langs/el.json'));
 COUNTRIES.registerLocale(require('i18n-iso-countries/langs/en.json'));
 COUNTRIES.registerLocale(require('i18n-iso-countries/langs/es.json'));
 COUNTRIES.registerLocale(require('i18n-iso-countries/langs/fr.json'));
@@ -33,7 +34,9 @@ COUNTRIES.registerLocale(require('i18n-iso-countries/langs/uk.json'));
  */
 export function getCountryMessages(locale) {
   const primaryLanguageSubtag = getPrimaryLanguageSubtag(locale);
-  const languageCode = countryLangs().includes(primaryLanguageSubtag) ? primaryLanguageSubtag : 'en';
+  const languageCode = countryLangs().includes(primaryLanguageSubtag)
+    ? primaryLanguageSubtag
+    : 'en';
 
   return COUNTRIES.getNames(languageCode);
 }
@@ -53,5 +56,8 @@ export function getCountryMessages(locale) {
  */
 export function getCountryList(locale) {
   const countryMessages = getCountryMessages(locale);
-  return Object.entries(countryMessages).map(([code, name]) => ({ code, name }));
+  return Object.entries(countryMessages).map(([code, name]) => ({
+    code,
+    name,
+  }));
 }
